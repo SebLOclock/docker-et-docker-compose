@@ -156,23 +156,7 @@ Nous allons donc utiliser le conteneur Node.js que nous avons créé précédemm
 
 1. Créez un fichier docker-compose.yml dans le même répertoire :
 
-```yaml
-version: '3'
-services:
-  web:
-    build: .
-    ports:
-      - "3000:3000"
-```
 
-`version: '3'` : Définir la version du fichier de configuration Docker Compose.
-`services` : Définir les services qui composent l'application.
-`web` : Nom du service.
-`build: .` : Construire l'image à partir du Dockerfile dans le répertoire actuel.
-`ports` : Mapper les ports.
-`"3000:3000"` : Mapper le port 3000 de l'hôte sur le port 3000 du conteneur.
-
-Rien de nouveau ici, nous avons simplement défini un service web qui utilise l'image Docker que nous avons construite précédemment et qui expose le port 3000.
 
 2. Démarrez l'application avec Docker Compose :
 
@@ -185,42 +169,6 @@ docker-compose up
 ### Étape 3 : Ajouter un Service de Base de Données
 
 1. Modifiez le fichier docker-compose.yml pour ajouter un service de base de données (PostgreSQL) :
-
-```yaml
-version: '3'
-services:
-  web:
-    build: .
-    ports:
-      - "3000:3000"
-    environment:
-      - DATABASE_HOST=database
-      - DATABASE_PORT=5432
-      - DATABASE_USER=postgres
-      - DATABASE_PASSWORD=example
-      - DATABASE_NAME=exampledb
-    depends_on:
-      - database
-
-  database:
-    image: postgres:13
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: example
-      POSTGRES_DB: exampledb
-    ports:
-      - "5433:5432"
-    volumes:
-      - db_data:/var/lib/postgresql/data
-
-volumes:
-  db_data:
-```
-
-`environment` : Définir les variables d'environnement pour le service web afin de se connecter au service database.
-`depends_on` : Spécifie que le service web dépend du service database, garantissant que le conteneur database est démarré avant web.
-`image: postgres:13` : Utiliser l'image officielle de PostgreSQL version 13 pour le service database.
-`volumes` : Définir des volumes pour persister les données de la base de données.
 
 2. Démarrez les services :
 
